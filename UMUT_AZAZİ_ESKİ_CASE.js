@@ -27,7 +27,7 @@
       updateCarouselPosition,
     };
 
-    // Get favorites before products to ensure they're available when building HTML
+ 
     self.getFavoriteProducts();
     await self.getProducts();
     self.buildHTML();
@@ -36,7 +36,7 @@
   };
 
   const getProducts = async () => {
-    // Try to get products from localStorage first
+  
     const storedProducts = localStorage.getItem("carouselProducts");
     if (storedProducts) {
       try {
@@ -47,7 +47,7 @@
       }
     }
 
-    // If not in localStorage or parsing failed, fetch from API
+   
     try {
       const response = await fetch(
         "https://gist.githubusercontent.com/sevindi/5765c5812bbc8238a38b3cf52f233651/raw/56261d81af8561bf0a7cf692fe572f9e1e91f372/products.json"
@@ -63,7 +63,7 @@
   const toggleFavorite = (heartIcon) => {
     const productId = heartIcon.dataset.productId.toString();
 
-    // Get latest favorites from localStorage before modifying
+  
     getFavoriteProducts();
 
     if (favoriteProducts.includes(productId)) {
@@ -82,7 +82,7 @@
     localStorage.setItem("favoriteProducts", JSON.stringify(favoriteProducts));
   };
 
-  //Build html here
+  
   const buildHTML = () => {
     const html = `<div class="product-recommendations">
       <div class="product-recommendations-carousel">
@@ -129,7 +129,7 @@
     $(".product-detail").after(html);
   };
 
-  //Building css for styling
+
   const buildCSS = () => {
     const css = `
   .product-recommendations {
@@ -271,7 +271,7 @@ flex-direction: column;
         flex: 0 0 calc(100% / 1.5);
     }
 }`;
-    //Adds <style> to html
+   
     $("<style>").addClass("carousel-style").html(css).appendTo("head");
   };
 
@@ -279,7 +279,7 @@ flex-direction: column;
   const handleSlide = (direction) => {
     const carousel = $(".product-carousel")[0];
     const cardWidth = $(".product-card")[0].offsetWidth;
-    const slideAmount = cardWidth + 20; // 20px is the gap between cards, gets one product each slide
+    const slideAmount = cardWidth + 20; 
     const maxScroll = -(carousel.scrollWidth - carousel.offsetWidth);
 
     if (direction === "prev") {
@@ -296,24 +296,24 @@ flex-direction: column;
   };
 
   const setEvents = () => {
-    // Heart icon click events
+  
     $(".heart-icon").on("click", function (e) {
       e.preventDefault();
       self.toggleFavorite(this);
     });
 
-    // Navigation arrow events
+  
     $(".carousel-arrow.prev").on("click", () => self.handleSlide("prev"));
     $(".carousel-arrow.next").on("click", () => self.handleSlide("next"));
 
-    // Handle resize
+ 
     $(window).on("resize", () => {
       currentPosition = 0;
       self.updateCarouselPosition();
     });
   };
 
-  // Check if jQuery is loaded if else load it
+
   if (typeof jQuery === "undefined") {
     const script = document.createElement("script");
     script.src = "https://code.jquery.com/jquery-3.6.0.min.js";
